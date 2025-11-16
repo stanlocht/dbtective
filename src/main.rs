@@ -1,8 +1,5 @@
 mod cli;
 mod core;
-#[cfg(test)]
-mod test;
-
 use crate::cli::commands::{Cli, Commands};
 use crate::core::config::parse_config;
 use clap::{CommandFactory, Parser};

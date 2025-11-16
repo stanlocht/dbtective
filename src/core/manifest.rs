@@ -1,0 +1,121 @@
+use anyhow::{Context, Result};
+use std::fs::File;
+use std::io::BufReader;
+use std::path::Path;
+
+use crate::core::dbt_objects::{Analysis, HookNode, Model, Seed, Snapshot, SqlOperation, Test};
+use serde::Deserialize;
+use std::collections::HashMap;
+
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+pub struct ManifestMetadata {
+    pub dbt_schema_version: String,
+    pub dbt_version: String,
+    pub generated_at: String,
+    pub invocation_id: Option<String>,
+    pub invocation_started_at: Option<String>,
+    pub env: HashMap<String, String>,
+    pub project_name: Option<String>,
+    pub project_id: Option<String>,
+    pub user_id: Option<String>,
+    pub send_anonymous_usage_stats: Option<bool>,
+    pub adapter_type: Option<String>,
+    pub quoting: Quoting,
+}
+
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+pub struct Quoting {
+    pub database: Option<bool>,
+    pub schema: Option<bool>,
+    pub identifier: Option<bool>,
+    pub column: Option<bool>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(tag = "resource_type")]
+#[allow(dead_code)]
+pub enum Node {
+    #[serde(rename = "analysis")]
+    Analysis(Analysis),
+    #[serde(rename = "seed")]
+    Seed(Seed),
+    #[serde(rename = "model")]
+    Model(Model),
+    #[serde(rename = "test")]
+    Test(Test),
+    #[serde(rename = "snapshot")]
+    Snapshot(Snapshot),
+    #[serde(rename = "operation")]
+    HookNode(HookNode),
+    #[serde(rename = "sql_operation")]
+    SqlOperation(SqlOperation),
+}
+
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+// Valid manifest according to manifest version v12
+pub struct Manifest {
+    pub metadata: ManifestMetadata,
+    pub nodes: HashMap<String, Node>,
+    // pub sources: HashMap<String, Source>,
+    // pub macros: HashMap<String, Macro>,
+    // pub docs: HashMap<String, Doc>,
+    // pub exposures: HashMap<String, Exposure>,
+    // pub metrics: HashMap<String, Metric>,
+    // pub groups: HashMap<String, Group>,
+    // pub selectors: HashMap<String, Selector>,
+    // pub disabled: HashMap<String, Vec<DisabledResource>>,
+    // pub parent_map: HashMap<String, Vec<String>>,
+    // pub child_map: HashMap<String, Vec<String>>,
+    // pub group_map: HashMap<String, Vec<String>>,
+    // pub saved_queries: HashMap<String, SavedQuery>,
+    // pub semantic_models: HashMap<String, SemanticModel>,
+    // pub unit_tests: HashMap<String, UnitTest>,
+}
+
+#[allow(dead_code)]
+pub fn load_manifest(manifest_path: &Path) -> Result<Manifest> {
+    let file = File::open(manifest_path).context(format!(
+        "Unable to open manifest, expected at {:?}",
+        manifest_path
+    ))?;
+
+    let reader = BufReader::new(file);
+    let manifest: Manifest = serde_json::from_reader(reader).context(format!(
+        "Unable to parse manifest JSON, delete it from {:?} and regenerate using 'dbt run'\nSee: \x1b]8;;https://docs.getdbt.com/reference/artifacts/manifest-json\x1b\\dbt manifest documentation\x1b]8;;\x1b\\",
+        manifest_path
+    ))?;
+
+    Ok(manifest)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+
+    #[test]
+    fn test_load_manifest() {
+        let manifest_path = PathBuf::from("dbt_project/target/manifest.json");
+        let manifest = load_manifest(&manifest_path).expect("Failed to parse manifest");
+        assert_eq!(manifest.metadata.dbt_version, "1.10.2");
+        // assert!(manifest.get("nodes").is_some());
+        // assert!(manifest.get("sources").is_some());
+        // assert!(manifest.get("macros").is_some());
+        // assert!(manifest.get("metadata").is_some());
+    }
+
+    #[test]
+    fn test_load_manifest_invalid_path() {
+        let manifest_path = PathBuf::from("invalid/path/manifest.json");
+        let result = load_manifest(&manifest_path);
+        assert!(result.is_err());
+        assert!(result
+            .err()
+            .unwrap()
+            .to_string()
+            .contains("Unable to open manifest"));
+    }
+}

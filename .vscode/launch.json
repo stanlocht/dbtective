@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Rust Tests (LLDB)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/target/debug/dbtective",
+            "args": [
+                "--nocapture"
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "rust: cargo test",
+            "env": {
+                "RUST_BACKTRACE": "1"
+            }
+        }
+    ]
+}
