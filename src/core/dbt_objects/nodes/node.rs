@@ -1,6 +1,9 @@
-use super::super::{Docs, Meta, Tags};
+use super::super::column::Column;
+use super::super::{Meta, Tags};
+// use super::super::NodeDocs
 use super::{Analysis, HookNode, Model, Seed, Snapshot, SqlOperation, Test};
 use serde::Deserialize;
+use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 #[serde(tag = "resource_type")]
@@ -35,14 +38,13 @@ pub struct MacroDependsOn {
     pub macros: Vec<String>,
 }
 
+// Base Layer: Core fields ALL nodes have
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
 pub struct NodeBase {
-    // Required fields
     pub database: Option<String>,
     pub schema: String,
     pub name: String,
-    // pub resource_type: String, Used for enum tagging, not incorporated here
     pub package_name: String,
     pub path: String,
     pub original_file_path: String,
@@ -51,22 +53,43 @@ pub struct NodeBase {
     pub alias: String,
     pub checksum: FileHash,
 
-    // General fields we will use
-    tags: Option<Tags>,
-    description: Option<String>,
-    meta: Option<Meta>,
+    // Common optional fields
+    pub tags: Option<Tags>,
+    pub description: Option<String>,
+    pub meta: Option<Meta>,
+    pub columns: Option<HashMap<String, Column>>,
+    pub config: Option<serde_json::Value>,
+    // Currently unused fields that do exist in the data
+    // pub group: Option<String>,
+    // pub docs: Option<NodeDocs>,
+    // pub patch_path: Option<String>,
+    // pub build_path: Option<String>,
+    // pub unrendered_config: Option<serde_json::Value>,
+    // pub created_at: Option<f64>,
+    // pub config_call_dict: Option<serde_json::Value>,
+    // pub unrendered_config_call_dict: Option<serde_json::Value>,
+    // pub relation_name: Option<String>,
+    // pub raw_code: Option<String>,
+    // pub doc_blocks: Option<Vec<String>>,
+    // pub root_path: Option<String>,
+    // pub depends_on: Option<MacroDependsOn>,
+}
 
-    // Optional fields we might use later
-    group: Option<String>,
-    docs: Option<Docs>,
-    patch_path: Option<String>,
-    build_path: Option<String>,
-    unrendered_config: Option<serde_json::Value>,
-    created_at: Option<f64>, // e.g.  "created_at": 1755247538.5673869,
-    config_call_dict: Option<serde_json::Value>,
-    relation_name: Option<String>,
-    raw_code: Option<String>,
-    doc_blocks: Option<Vec<String>>,
-    root_path: Option<String>,
-    depends_on: Option<MacroDependsOn>,
+// Layer 2: Compiled node specific fields
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+pub struct CompiledNodeFields {
+    pub language: Option<String>,
+    // Currently unused fields that do exist in the data
+    // pub refs: Option<Vec<serde_json::Value>>,
+    // pub sources: Option<Vec<serde_json::Value>>,
+    // pub metrics: Option<Vec<serde_json::Value>>,
+    // pub compiled_path: Option<String>,
+    // pub compiled: Option<bool>,
+    // pub compiled_code: Option<String>,
+    // pub extra_ctes_injected: Option<bool>,
+    // pub extra_ctes: Option<Vec<serde_json::Value>>,
+    // #[serde(rename = "_pre_injected_sql")]
+    // pub pre_injected_sql: Option<String>,
+    // pub contract: Option<serde_json::Value>,
 }

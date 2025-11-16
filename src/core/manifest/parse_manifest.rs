@@ -1,4 +1,5 @@
-use crate::core::dbt_objects::nodes::node::Node;
+use super::super::dbt_objects::{Node, Source};
+use super::{Exposure, Group, Macro, Metric, SavedQuery, SemanticModel, UnitTest};
 use anyhow::{Context, Result};
 use std::collections::HashMap;
 use std::fs::File;
@@ -39,20 +40,20 @@ pub struct Quoting {
 pub struct Manifest {
     pub metadata: ManifestMetadata,
     pub nodes: HashMap<String, Node>,
-    // pub sources: HashMap<String, Source>,
-    // pub macros: HashMap<String, Macro>,
-    // pub docs: HashMap<String, Doc>,
-    // pub exposures: HashMap<String, Exposure>,
-    // pub metrics: HashMap<String, Metric>,
-    // pub groups: HashMap<String, Group>,
+    pub sources: HashMap<String, Source>,
+    pub macros: HashMap<String, Macro>,
+    // pub docs: HashMap<String, Documentation>,
+    pub exposures: HashMap<String, Exposure>,
+    pub metrics: HashMap<String, Metric>,
+    pub groups: HashMap<String, Group>,
     // pub selectors: HashMap<String, Selector>,
     // pub disabled: HashMap<String, Vec<DisabledResource>>,
-    // pub parent_map: HashMap<String, Vec<String>>,
-    // pub child_map: HashMap<String, Vec<String>>,
-    // pub group_map: HashMap<String, Vec<String>>,
-    // pub saved_queries: HashMap<String, SavedQuery>,
-    // pub semantic_models: HashMap<String, SemanticModel>,
-    // pub unit_tests: HashMap<String, UnitTest>,
+    pub parent_map: HashMap<String, Vec<String>>,
+    pub child_map: HashMap<String, Vec<String>>,
+    pub group_map: HashMap<String, Vec<String>>,
+    pub saved_queries: HashMap<String, SavedQuery>,
+    pub semantic_models: HashMap<String, SemanticModel>,
+    pub unit_tests: HashMap<String, UnitTest>,
 }
 
 #[allow(dead_code)]
@@ -80,12 +81,8 @@ mod tests {
     fn test_load_manifest() {
         let manifest_path = PathBuf::from("dbt_project/target/manifest.json");
         let manifest = load_manifest(&manifest_path).expect("Failed to parse manifest");
-        println!("{:#?}", manifest);
+        println!("{:#?}", manifest.sources);
         assert_eq!(manifest.metadata.dbt_version, "1.10.2");
-        // assert!(manifest.get("nodes").is_some());
-        // assert!(manifest.get("sources").is_some());
-        // assert!(manifest.get("macros").is_some());
-        // assert!(manifest.get("metadata").is_some());
     }
 
     #[test]
@@ -98,5 +95,33 @@ mod tests {
             .unwrap()
             .to_string()
             .contains("Unable to open manifest"));
+    }
+
+    #[test]
+    fn test_deserialize_timing_comparison() {
+        use std::time::Instant;
+
+        let manifest_path = PathBuf::from("dbt_project/target/manifest.json");
+
+        // Typed deserialization (to our Manifest struct)
+        let start = Instant::now();
+        let file = File::open(&manifest_path).unwrap();
+        let reader = BufReader::new(file);
+        let _manifest: Manifest = serde_json::from_reader(reader).unwrap();
+        let typed_duration = start.elapsed();
+        println!("Typed (Manifest struct): {:?}", typed_duration);
+
+        // Untyped deserialization (to serde_json::Value)
+        let start = Instant::now();
+        let file = File::open(&manifest_path).unwrap();
+        let reader = BufReader::new(file);
+        let _value: serde_json::Value = serde_json::from_reader(reader).unwrap();
+        let untyped_duration = start.elapsed();
+        println!("Untyped (serde_json::Value): {:?}", untyped_duration);
+
+        println!(
+            "Difference: {:?}",
+            typed_duration.saturating_sub(untyped_duration)
+        );
     }
 }
