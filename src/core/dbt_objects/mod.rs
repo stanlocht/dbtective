@@ -1,15 +1,9 @@
-pub mod analysis;
-pub mod hook_node;
-pub mod model;
-pub mod seed;
-pub mod snapshot;
-pub mod sql_operation;
-pub mod test;
+pub mod column;
+pub mod docs;
+pub mod meta;
+pub mod nodes;
+pub mod tags;
 
-pub use analysis::Analysis;
-pub use hook_node::HookNode;
-pub use model::Model;
-pub use seed::Seed;
-pub use snapshot::Snapshot;
-pub use sql_operation::SqlOperation;
-pub use test::Test;
+pub use docs::Docs;
+pub use meta::Meta;
+pub use tags::Tags;

@@ -1,11 +1,11 @@
+use crate::core::dbt_objects::nodes::node::Node;
 use anyhow::{Context, Result};
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 
-use crate::core::dbt_objects::{Analysis, HookNode, Model, Seed, Snapshot, SqlOperation, Test};
 use serde::Deserialize;
-use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
@@ -31,26 +31,6 @@ pub struct Quoting {
     pub schema: Option<bool>,
     pub identifier: Option<bool>,
     pub column: Option<bool>,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(tag = "resource_type")]
-#[allow(dead_code)]
-pub enum Node {
-    #[serde(rename = "analysis")]
-    Analysis(Analysis),
-    #[serde(rename = "seed")]
-    Seed(Seed),
-    #[serde(rename = "model")]
-    Model(Model),
-    #[serde(rename = "test")]
-    Test(Test),
-    #[serde(rename = "snapshot")]
-    Snapshot(Snapshot),
-    #[serde(rename = "operation")]
-    HookNode(HookNode),
-    #[serde(rename = "sql_operation")]
-    SqlOperation(SqlOperation),
 }
 
 #[derive(Debug, Deserialize)]
@@ -100,6 +80,7 @@ mod tests {
     fn test_load_manifest() {
         let manifest_path = PathBuf::from("dbt_project/target/manifest.json");
         let manifest = load_manifest(&manifest_path).expect("Failed to parse manifest");
+        println!("{:#?}", manifest);
         assert_eq!(manifest.metadata.dbt_version, "1.10.2");
         // assert!(manifest.get("nodes").is_some());
         // assert!(manifest.get("sources").is_some());
