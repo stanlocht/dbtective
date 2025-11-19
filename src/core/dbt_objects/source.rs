@@ -10,7 +10,8 @@ pub struct Source {
     // Required fields
     pub database: Option<String>,
     // pub schema: String,
-    // pub name: String,
+    pub name: String,
+    pub description: Option<String>,
     // pub resource_type: String,
     // pub package_name: String,
     // pub path: String,
@@ -18,7 +19,6 @@ pub struct Source {
     // pub unique_id: String,
     // pub fqn: Vec<String>,
     // pub source_name: String,
-    // pub source_description: String,
     // pub loader: String,
     // pub identifier: String,
 
@@ -28,7 +28,6 @@ pub struct Source {
     // pub loaded_at_query: Option<String>,
     // pub freshness: Option<serde_json::Value>,
     // pub external: Option<serde_json::Value>,
-    // pub description: Option<String>,
     // pub columns: Option<HashMap<String, Column>>,
     // pub meta: Option<Meta>,
     // pub source_meta: Option<Meta>,

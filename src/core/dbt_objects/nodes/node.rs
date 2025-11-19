@@ -1,8 +1,9 @@
 use super::super::column::Column;
 use super::super::{Meta, Tags};
+use crate::core::config::RuleTarget;
+use serde::Deserialize;
 // use super::super::NodeDocs
 use super::{Analysis, HookNode, Model, Seed, Snapshot, SqlOperation, Test};
-use serde::Deserialize;
 use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
@@ -23,6 +24,38 @@ pub enum Node {
     HookNode(HookNode),
     #[serde(rename = "sql_operation")]
     SqlOperation(SqlOperation),
+}
+impl Node {
+    pub fn ruletarget(&self) -> RuleTarget {
+        match self {
+            Node::Model(_) => RuleTarget::Models,
+            Node::Seed(_) => RuleTarget::Seeds,
+            Node::Test(_) => RuleTarget::Tests,
+            Node::Analysis(_) => RuleTarget::Analyses,
+            Node::Snapshot(_) => RuleTarget::Snapshots,
+            Node::HookNode(_) => RuleTarget::HookNodes,
+            Node::SqlOperation(_) => RuleTarget::HookNodes,
+        }
+    }
+    pub fn get_base(&self) -> &NodeBase {
+        match self {
+            Node::Analysis(a) => &a.base,
+            Node::Seed(s) => &s.base,
+            Node::Model(m) => &m.base,
+            Node::Test(t) => &t.base,
+            Node::Snapshot(s) => &s.base,
+            Node::HookNode(h) => &h.base,
+            Node::SqlOperation(s) => &s.base,
+        }
+    }
+
+    pub fn get_description(&self) -> Option<&String> {
+        self.get_base().description.as_ref()
+    }
+
+    pub fn original_file_path(&self) -> &String {
+        &self.get_base().original_file_path
+    }
 }
 
 #[derive(Debug, Deserialize)]

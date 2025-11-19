@@ -60,8 +60,11 @@ pub struct RunOptions {
     pub pyproject_file: String,
 
     /// Path to config toml file
-    #[arg(long, short, default_value = "dbtective.toml")]
+    #[arg(long, short, default_value = "dbtective.yml")]
     pub config_file: String,
+
+    #[arg(long, short, default_value = "target/manifest.json")]
+    pub manifest_file: String,
 
     /// Optional output file with test results
     #[arg(long, short)]
@@ -124,6 +127,7 @@ mod tests {
     #[test]
     fn test_run_options_debug() {
         let options = RunOptions {
+            manifest_file: "custom_manifest.json".to_string(),
             entry_point: "./".to_string(),
             pyproject_file: "pyproject.toml".to_string(),
             config_file: "dbtective.toml".to_string(),
@@ -143,6 +147,7 @@ mod tests {
     fn test_run_options_default_values() {
         // Test creating RunOptions with default-like values
         let options = RunOptions {
+            manifest_file: "custom_manifest.json".to_string(),
             entry_point: "./".to_string(),
             pyproject_file: "pyproject.toml".to_string(),
             config_file: "dbtective.toml".to_string(),
@@ -159,6 +164,7 @@ mod tests {
     #[test]
     fn test_run_options_with_all_fields() {
         let options = RunOptions {
+            manifest_file: "custom_manifest.json".to_string(),
             entry_point: "/path/to/project".to_string(),
             pyproject_file: "custom_pyproject.toml".to_string(),
             config_file: "custom_config.toml".to_string(),
@@ -190,6 +196,7 @@ mod tests {
         // Test Run command variant
         let run_cmd = Commands::Run {
             options: RunOptions {
+                manifest_file: "custom_manifest.json".to_string(),
                 entry_point: "./".to_string(),
                 pyproject_file: "pyproject.toml".to_string(),
                 config_file: String::new(),
@@ -235,6 +242,7 @@ mod tests {
             verbose: true,
             command: Some(Commands::Run {
                 options: RunOptions {
+                    manifest_file: "custom_manifest.json".to_string(),
                     entry_point: "./src".to_string(),
                     pyproject_file: "pyproject.toml".to_string(),
                     config_file: "config.toml".to_string(),
@@ -268,6 +276,7 @@ mod tests {
 
         let run_cmd = Commands::Run {
             options: RunOptions {
+                manifest_file: "custom_manifest.json".to_string(),
                 entry_point: "./".to_string(),
                 pyproject_file: "pyproject.toml".to_string(),
                 config_file: "dbtective.toml".to_string(),

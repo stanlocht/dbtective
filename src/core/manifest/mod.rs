@@ -16,5 +16,6 @@ pub use metric::Metric;
 pub use r#macro::Macro;
 pub use saved_query::SavedQuery;
 // pub use selector::Selector;
+pub use parse_manifest::Manifest;
 pub use semantic_model::SemanticModel;
 pub use unit_test::UnitTest;
