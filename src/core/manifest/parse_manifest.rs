@@ -62,7 +62,7 @@ impl Manifest {
 
         let reader = BufReader::new(file);
 
-        let mut manifest: Manifest = serde_json::from_reader(reader).context(format!(
+        let mut manifest: Self = serde_json::from_reader(reader).context(format!(
             "Unable to parse manifest JSON, delete it from {} and regenerate using 'dbt run'\nSee: \x1b]8;;https://docs.getdbt.com/reference/artifacts/manifest-json\x1b\\dbt manifest documentation\x1b]8;;\x1b\\",
             manifest_path.display()
         ))?;

@@ -58,27 +58,27 @@ fn main() {
             } else {
                 let display_rows: Vec<RuleResultDisplay> = results
                     .into_iter()
-                    .filter_map(|result| match result {
-                        Ok(rule_result) if rule_result.code != 0 => Some(RuleResultDisplay {
-                            status: rule_result.severity.as_str(),
-                            node_type: rule_result.node_type,
-                            message: rule_result.message,
-                        }),
-                        Err(err) => {
-                            eprintln!("{}", err.to_string().red());
-                            None
-                        }
-                        _ => None,
+                    .filter(|rule_result| rule_result.code != 0)
+                    .map(|rule_result| RuleResultDisplay {
+                        status: rule_result.severity.as_str(),
+                        node_type: rule_result.node_type,
+                        message: rule_result.message,
                     })
                     .collect();
-
-                let mut table = Table::new(display_rows);
-                table.with(Style::modern());
-                println!("{}", table);
+                if display_rows.is_empty() {
+                    println!(
+                        "{}",
+                        "🕵️  All checks passed successfully! — dbtective is off the case!".green()
+                    );
+                } else {
+                    let mut table = Table::new(display_rows);
+                    table.with(Style::modern());
+                    println!("{table}");
+                }
             }
 
             let duration = start.elapsed();
-            println!("Analysis completed in: {:?}", duration);
+            println!("Analysis completed in: {duration:?}");
         }
         Some(Commands::Init { options }) => {
             if args.verbose {

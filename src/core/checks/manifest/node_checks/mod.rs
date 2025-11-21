@@ -4,10 +4,7 @@ use crate::core::config::Config;
 use crate::core::config::SpecificRuleConfig::HasDescription;
 use crate::core::manifest::Manifest;
 
-pub fn apply_node_checks(
-    manifest: &Manifest,
-    config: &Config,
-) -> Vec<Result<RuleResult, anyhow::Error>> {
+pub fn apply_node_checks(manifest: &Manifest, config: &Config) -> Vec<RuleResult> {
     let mut results = Vec::new();
     for rule in &config.manifest_tests {
         for node in manifest.nodes.values() {

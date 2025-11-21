@@ -26,26 +26,28 @@ pub enum Node {
     SqlOperation(SqlOperation),
 }
 impl Node {
+    #[allow(clippy::missing_const_for_fn)]
     pub fn ruletarget(&self) -> RuleTarget {
         match self {
-            Node::Model(_) => RuleTarget::Models,
-            Node::Seed(_) => RuleTarget::Seeds,
-            Node::Test(_) => RuleTarget::Tests,
-            Node::Analysis(_) => RuleTarget::Analyses,
-            Node::Snapshot(_) => RuleTarget::Snapshots,
-            Node::HookNode(_) => RuleTarget::HookNodes,
-            Node::SqlOperation(_) => RuleTarget::HookNodes,
+            Self::Model(_) => RuleTarget::Models,
+            Self::Seed(_) => RuleTarget::Seeds,
+            Self::Test(_) => RuleTarget::Tests,
+            Self::Analysis(_) => RuleTarget::Analyses,
+            Self::Snapshot(_) => RuleTarget::Snapshots,
+            Self::HookNode(_) => RuleTarget::HookNodes,
+            Self::SqlOperation(_) => RuleTarget::SqlOperations,
         }
     }
+    #[allow(clippy::missing_const_for_fn)]
     pub fn get_base(&self) -> &NodeBase {
         match self {
-            Node::Analysis(a) => &a.base,
-            Node::Seed(s) => &s.base,
-            Node::Model(m) => &m.base,
-            Node::Test(t) => &t.base,
-            Node::Snapshot(s) => &s.base,
-            Node::HookNode(h) => &h.base,
-            Node::SqlOperation(s) => &s.base,
+            Self::Analysis(a) => &a.base,
+            Self::Seed(s) => &s.base,
+            Self::Model(m) => &m.base,
+            Self::Test(t) => &t.base,
+            Self::Snapshot(s) => &s.base,
+            Self::HookNode(h) => &h.base,
+            Self::SqlOperation(s) => &s.base,
         }
     }
 

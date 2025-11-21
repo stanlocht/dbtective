@@ -40,24 +40,26 @@ pub enum RuleTarget {
     Analyses,
     Snapshots,
     HookNodes,
+    SqlOperations,
 }
 impl fmt::Display for RuleTarget {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let singular = match self {
-            RuleTarget::Models => "Model",
-            RuleTarget::Seeds => "Seed",
-            RuleTarget::Sources => "Source",
-            RuleTarget::Macros => "Macro",
-            RuleTarget::Metrics => "Metric",
-            RuleTarget::Exposures => "Exposure",
-            RuleTarget::SemanticModels => "SemanticModel",
-            RuleTarget::SavedQueries => "SavedQuery",
-            RuleTarget::Tests => "Test",
-            RuleTarget::Analyses => "Analysis",
-            RuleTarget::Snapshots => "Snapshot",
-            RuleTarget::HookNodes => "HookNode",
+            Self::Models => "Model",
+            Self::Seeds => "Seed",
+            Self::Sources => "Source",
+            Self::Macros => "Macro",
+            Self::Metrics => "Metric",
+            Self::Exposures => "Exposure",
+            Self::SemanticModels => "SemanticModel",
+            Self::SavedQueries => "SavedQuery",
+            Self::Tests => "Test",
+            Self::Analyses => "Analysis",
+            Self::Snapshots => "Snapshot",
+            Self::HookNodes => "HookNode",
+            Self::SqlOperations => "SqlOperation",
         };
-        write!(f, "{}", singular)
+        write!(f, "{singular}")
     }
 }
 
@@ -69,17 +71,17 @@ pub enum Severity {
 }
 impl Severity {
     #[allow(dead_code)]
-    pub fn as_code(&self) -> u8 {
+    pub const fn as_code(&self) -> u8 {
         match self {
-            Severity::Error => 1,
-            Severity::Warning => 0,
+            Self::Error => 1,
+            Self::Warning => 0,
         }
     }
 
-    pub fn as_str(&self) -> &'static str {
+    pub const fn as_str(&self) -> &'static str {
         match self {
-            Severity::Error => "FAIL",
-            Severity::Warning => "WARN",
+            Self::Error => "FAIL",
+            Self::Warning => "WARN",
         }
     }
 }
@@ -92,7 +94,7 @@ pub enum SpecificRuleConfig {
     HasDescription {},
 }
 
-fn default_severity() -> Severity {
+const fn default_severity() -> Severity {
     Severity::Error
 }
 
@@ -120,7 +122,7 @@ impl Config {
         let file = File::open(path)
             .context(format!("Unable to open config file at {}", path.display()))?;
 
-        let mut config: Config =
+        let mut config: Self =
             serde_yaml::from_reader(file).context("Failed to parse configuration")?;
 
         config.apply_default_applies_to();
