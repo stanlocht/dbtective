@@ -38,6 +38,7 @@ pub struct Column {
     pub quoted: Option<bool>,
     pub config: Option<ColumnConfig>,
     pub tags: Tags,
+    #[allow(clippy::pub_underscore_fields)]
     pub _extra: Option<serde_json::Value>,
     pub granularity: Option<String>,
     pub doc_blocks: Option<Vec<String>>,

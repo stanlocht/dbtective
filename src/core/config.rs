@@ -161,7 +161,7 @@ manifest_tests:
         let temp_file = create_temp_file_from_str(simple_rule);
         let config = Config::from_file(temp_file.path()).expect("Failed to parse config");
 
-        println!("{:#?}", config);
+        println!("{config:#?}");
 
         assert_eq!(config.manifest_tests.len(), 2);
         assert_eq!(

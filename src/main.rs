@@ -45,8 +45,13 @@ fn main() {
                 };
 
             let node_checks_results = apply_node_checks(&manifest, &config);
-
-            print_result_table(node_checks_results);
+            match node_checks_results {
+                Ok(results) => print_result_table(results),
+                Err(err) => {
+                    eprintln!("{}", err.to_string().red());
+                    exit(1);
+                }
+            }
 
             if args.verbose {
                 let duration = start.elapsed();
