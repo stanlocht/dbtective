@@ -56,6 +56,10 @@ impl Node {
     pub fn original_file_path(&self) -> &String {
         &self.get_base().original_file_path
     }
+
+    pub fn get_package_name(&self) -> &String {
+        &self.get_base().package_name
+    }
 }
 
 #[derive(Debug, Deserialize)]

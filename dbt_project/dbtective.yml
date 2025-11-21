@@ -1,5 +1,6 @@
 manifest_tests:
-  - name: "model_seeds_have_description"
+  - name: "models_must_have_description"
     type: "has_description"
     severity: "error"
     description: "All nodes must have a description."
+    applies_to: ["models"]

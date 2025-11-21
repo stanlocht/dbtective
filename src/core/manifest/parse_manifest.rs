@@ -62,12 +62,19 @@ impl Manifest {
 
         let reader = BufReader::new(file);
 
-        let manifest: Manifest = serde_json::from_reader(reader).context(format!(
+        let mut manifest: Manifest = serde_json::from_reader(reader).context(format!(
             "Unable to parse manifest JSON, delete it from {} and regenerate using 'dbt run'\nSee: \x1b]8;;https://docs.getdbt.com/reference/artifacts/manifest-json\x1b\\dbt manifest documentation\x1b]8;;\x1b\\",
             manifest_path.display()
         ))?;
 
         check_manifest_version(&manifest.metadata.dbt_schema_version)?;
+
+        // Filter nodes to only those with package_name == project_name
+        if let Some(project_name) = manifest.metadata.project_name.as_ref() {
+            manifest
+                .nodes
+                .retain(|_, node| node.get_package_name() == project_name.as_str());
+        }
 
         Ok(manifest)
     }
