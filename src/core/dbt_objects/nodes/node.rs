@@ -25,15 +25,22 @@ pub enum Node {
     #[serde(rename = "sql_operation")]
     SqlOperation(SqlOperation),
 }
-
-impl Descriptable for Node {
-    fn description(&self) -> Option<&String> {
-        self.get_base().description.as_ref()
+impl Node {
+    pub fn as_str(&self) -> &str {
+        match self {
+            Self::Analysis(_) => "Analysis",
+            Self::Seed(_) => "Seed",
+            Self::Model(_) => "Model",
+            Self::Test(_) => "Test",
+            Self::Snapshot(_) => "Snapshot",
+            Self::HookNode(_) => "Operation",
+            Self::SqlOperation(_) => "SqlOperation",
+        }
     }
-    fn original_file_path(&self) -> &String {
-        &self.get_base().original_file_path
+    fn get_name(&self) -> &String {
+        &self.get_base().name
     }
-    fn ruletarget(&self) -> RuleTarget {
+    pub fn ruletarget(&self) -> RuleTarget {
         match self {
             Self::Model(_) => RuleTarget::Models,
             Self::Seed(_) => RuleTarget::Seeds,
@@ -45,16 +52,23 @@ impl Descriptable for Node {
         }
     }
 }
+impl Descriptable for Node {
+    fn description(&self) -> Option<&String> {
+        self.get_base().description.as_ref()
+    }
+
+    fn get_object_string(&self) -> String {
+        format!("{} '{}'", self.as_str(), &self.get_name())
+    }
+}
 
 impl Descriptable for &Node {
     fn description(&self) -> Option<&String> {
         (*self).description()
     }
-    fn original_file_path(&self) -> &String {
-        (*self).original_file_path()
-    }
-    fn ruletarget(&self) -> RuleTarget {
-        (*self).ruletarget()
+
+    fn get_object_string(&self) -> String {
+        (*self).get_object_string()
     }
 }
 

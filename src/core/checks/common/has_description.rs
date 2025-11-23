@@ -1,26 +1,25 @@
-use crate::core::checks::RuleResult;
-use crate::core::config::ManifestRule;
+use crate::core::config::{ManifestRule, Severity};
 use crate::core::traits::Descriptable;
+use owo_colors::OwoColorize;
 
-pub fn check_node_description<T: Descriptable>(
-    descriptable: &T,
-    rule: &ManifestRule,
-) -> RuleResult {
-    let (passed, message) = match descriptable.description() {
-        Some(desc) if !desc.trim().is_empty() => (true, String::new()),
-        _ => (
-            false,
-            format!(
-                "'{}' is missing a description.",
-                descriptable.original_file_path()
-            ),
-        ),
+pub fn print_check_row(severity: &Severity, message: &str) {
+    let sev_str = severity.as_str();
+    let colored_sev = match severity {
+        Severity::Error => sev_str.red().bold().to_string(),
+        Severity::Warning => sev_str.yellow().bold().to_string(),
     };
-
-    RuleResult {
-        severity: rule.severity.clone(),
-        code: i32::from(!passed),
-        node_type: descriptable.ruletarget().to_string(),
-        message,
+    println!("| {:^8} | {:<60} |", colored_sev, message);
+}
+pub fn check_node_description<T: Descriptable>(descriptable: &T, rule: &ManifestRule) -> i32 {
+    match descriptable.description() {
+        Some(desc) if !desc.trim().is_empty() => 0,
+        _ => {
+            let msg = format!(
+                "'{}': missing description.",
+                descriptable.get_object_string()
+            );
+            print_check_row(&rule.severity, &msg);
+            1
+        }
     }
 }

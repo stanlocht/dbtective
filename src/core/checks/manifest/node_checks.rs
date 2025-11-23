@@ -1,10 +1,7 @@
 use crate::core::checks::common::has_description;
-use crate::core::checks::RuleResult;
 use crate::core::config::Config;
 use crate::core::config::SpecificRuleConfig::HasDescription;
 use crate::core::manifest::Manifest;
-use crate::core::traits::Descriptable;
-use anyhow::Result;
 
 /// Applies node checks to the manifest.
 ///
@@ -15,7 +12,7 @@ use anyhow::Result;
 ///
 /// # Panics
 /// This function will panic if `applies_to` is `None` for any rule.
-pub fn apply_node_checks(manifest: &Manifest, config: &Config) -> Result<Vec<RuleResult>> {
+pub fn apply_node_checks(manifest: &Manifest, config: &Config) -> i32 {
     let mut results = Vec::new();
     for rule in &config.manifest_tests {
         for node in manifest.nodes.values() {
@@ -34,5 +31,9 @@ pub fn apply_node_checks(manifest: &Manifest, config: &Config) -> Result<Vec<Rul
             }
         }
     }
-    Ok(results)
+    if results.iter().any(|&r| r != 0) {
+        1
+    } else {
+        0
+    }
 }

@@ -4,6 +4,7 @@ use std::fmt;
 use std::fs::File;
 use std::path::Path;
 
+#[allow(dead_code)]
 const ALL_RULE_TARGETS: &[RuleTarget] = &[
     RuleTarget::Models,
     RuleTarget::Seeds,
@@ -21,7 +22,13 @@ const ALL_RULE_TARGETS: &[RuleTarget] = &[
 
 fn default_applies_to_for_rule(rule_type: &SpecificRuleConfig) -> Vec<RuleTarget> {
     match rule_type {
-        SpecificRuleConfig::HasDescription {} => ALL_RULE_TARGETS.to_vec(),
+        SpecificRuleConfig::HasDescription {} => [
+            RuleTarget::Models,
+            RuleTarget::Seeds,
+            RuleTarget::Sources,
+            RuleTarget::Macros,
+        ]
+        .to_vec(),
     }
 }
 
@@ -178,6 +185,14 @@ manifest_tests:
     #[test]
     fn test_default_applies_to_for_rule() {
         let applies_to = default_applies_to_for_rule(&SpecificRuleConfig::HasDescription {});
-        assert_eq!(applies_to, ALL_RULE_TARGETS);
+        assert_eq!(
+            applies_to,
+            vec![
+                RuleTarget::Models,
+                RuleTarget::Seeds,
+                RuleTarget::Sources,
+                RuleTarget::Macros
+            ]
+        );
     }
 }

@@ -3,4 +3,3 @@ manifest_tests:
     type: "has_description"
     severity: "error"
     description: "All nodes must have a description."
-    applies_to: ["models"]

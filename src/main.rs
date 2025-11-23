@@ -1,7 +1,6 @@
 mod cli;
 mod core;
 use crate::cli::commands::{Cli, Commands};
-use crate::cli::table::print_result_table;
 pub use crate::core::checks::manifest::node_checks::apply_node_checks;
 use crate::core::config::Config;
 use crate::core::manifest::Manifest;
@@ -45,12 +44,12 @@ fn main() {
                 };
 
             let node_checks_results = apply_node_checks(&manifest, &config);
-            match node_checks_results {
-                Ok(results) => print_result_table(results),
-                Err(err) => {
-                    eprintln!("{}", err.to_string().red());
-                    exit(1);
-                }
+
+            if node_checks_results != 0 {
+                info!("{}", "Some checks have failed.".red());
+                exit(1);
+            } else {
+                info!("{}", "All checks passed successfully!".green());
             }
 
             if args.verbose {
