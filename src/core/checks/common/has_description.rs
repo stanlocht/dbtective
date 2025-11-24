@@ -121,4 +121,23 @@ mod tests {
             ))
         );
     }
+
+    #[test]
+    fn test_check_nonempty_description() {
+        let rule = ManifestRule {
+            name: "has_description".to_string(),
+            severity: Severity::Warning,
+            description: None,
+            applies_to: None,
+            rule: SpecificRuleConfig::HasDescription {},
+        };
+        let node_with_empty_desc = TestNode {
+            name: "TestNode5".to_string(),
+            description: Some("This is a valid description".to_string()),
+        };
+        assert_eq!(
+            check_node_description(&node_with_empty_desc, &rule),
+            Err(())
+        );
+    }
 }
