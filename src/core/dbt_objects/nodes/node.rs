@@ -57,12 +57,12 @@ impl Descriptable for Node {
         self.get_base().description.as_ref()
     }
 
-    fn get_object_type(&self) -> String {
-        self.as_str().to_string()
+    fn get_object_type(&self) -> &str {
+        self.as_str()
     }
 
-    fn get_object_string(&self) -> String {
-        self.get_name().to_string()
+    fn get_object_string(&self) -> &str {
+        self.get_name()
     }
 }
 
@@ -71,11 +71,11 @@ impl Descriptable for &Node {
         (*self).description()
     }
 
-    fn get_object_type(&self) -> String {
+    fn get_object_type(&self) -> &str {
         (*self).get_object_type()
     }
 
-    fn get_object_string(&self) -> String {
+    fn get_object_string(&self) -> &str {
         (*self).get_object_string()
     }
 }

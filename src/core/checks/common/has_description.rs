@@ -58,13 +58,13 @@ mod tests {
         fn description(&self) -> Option<&String> {
             self.description.as_ref()
         }
-
-        fn get_object_type(&self) -> String {
-            "TestNode".to_string()
+        #[allow(clippy::unnecessary_literal_bound)]
+        fn get_object_type(&self) -> &str {
+            "TestNode"
         }
 
-        fn get_object_string(&self) -> String {
-            format!("node '{}'", self.name)
+        fn get_object_string(&self) -> &str {
+            &self.name
         }
     }
     #[test]
@@ -90,7 +90,7 @@ mod tests {
             Ok(CheckRow::new(
                 &Severity::Warning,
                 "TestNode",
-                "node 'TestNode2' is missing a description."
+                "TestNode2 is missing a description."
             ))
         );
     }
@@ -117,7 +117,7 @@ mod tests {
             Ok(CheckRow::new(
                 &Severity::Error,
                 "TestNode",
-                "node 'TestNode4' is missing a description."
+                "TestNode4 is missing a description."
             ))
         );
     }
