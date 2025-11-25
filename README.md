@@ -2,6 +2,8 @@
 
 dbtective is a Rust-powered 'detective' for `dbt metadata` best practices. As your dbt project grows, keeping metadata consistent and high-quality can become a real challenge.
 
+Explore the [full documentation](https://feliblo.github.io/dbtective/).
+
 > [!WARNING]  
 > dbtective is currently in very early stages.
 > Issues and commits are welcome, but don't rely on us yet!
@@ -16,6 +18,10 @@ dbtective is a Rust-powered 'detective' for `dbt metadata` best practices. As yo
 We detect and enforce these rules in your `pre-commit` and `CI/CD` pipeline, so fast you will barely notice🕵️
 
 ## Quickstart
+All possible checks can be found in the [checks documentation](https://feliblo.github.io/dbtective/docs/). Information about configuring `dbtective` is shown at the [config documentation](https://feliblo.github.io/dbtective/docs/config)
+
+
+### Example
 todo!()
 
 ## Contributing
