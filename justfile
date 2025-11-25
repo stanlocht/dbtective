@@ -28,3 +28,7 @@ setup-docs:
 
 docs:
     hugo server --logLevel debug --disableFastRender -p 1313 -s docs
+
+release VERSION:
+    git tag {{VERSION}}
+    git push origin {{VERSION}}
