@@ -19,27 +19,39 @@ We detect and enforce these rules in your `pre-commit` and `CI/CD` pipeline, so 
 
 ## Installation
 
-### Shell installer (macOS/Linux)
+<details>
+<summary>Shell installer (macOS/Linux)</summary>
 
 ```bash
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/feliblo/dbtective/releases/latest/download/dbtective-installer.sh | sh
 ```
 
-### PowerShell installer (Windows)
+</details>
+
+<details>
+<summary>PowerShell installer (Windows)</summary>
 
 ```powershell
 irm https://github.com/feliblo/dbtective/releases/latest/download/dbtective-installer.ps1 | iex
 ```
 
-### Cargo
+</details>
+
+<details>
+<summary>Homebrew</summary>
 
 ```bash
-cargo install dbtective
+brew install feliblo/tap/dbtective
 ```
 
-### Download binaries
+</details>
+
+<details>
+<summary>Binary download</summary>
 
 Pre-built binaries for Linux, macOS, and Windows are available on the [releases page](https://github.com/feliblo/dbtective/releases).
+</details>
+
 
 ## Quickstart
 
