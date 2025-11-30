@@ -31,7 +31,7 @@ pip install dbtective
 
 Install as a dev dependency:
 ```bash
-uv install dbtective --dev
+uv add dbtective --dev
 ```
 </details>
 

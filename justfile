@@ -39,4 +39,3 @@ bump:
     git add CHANGELOG.md
     git commit --amend --no-edit
     git push origin main --tags
-    just changelog
