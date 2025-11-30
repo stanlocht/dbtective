@@ -33,6 +33,9 @@ docs:
 changelog:
     auto-changelog --hide-credit
 
+bump:
+    cz bump --increment PATCH
+
 release VERSION:
     git tag {{VERSION}}
-    git push origin "{{VERSION}}"
+    git push origin {{VERSION}}
