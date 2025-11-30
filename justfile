@@ -35,7 +35,4 @@ changelog:
 
 bump:
     cz bump --increment PATCH
-
-release VERSION:
-    git tag {{VERSION}}
-    git push origin {{VERSION}}
+    git push origin main --tags
