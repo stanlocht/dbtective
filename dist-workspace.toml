@@ -19,6 +19,7 @@ targets = [
 ]
 tap = "feliblo/homebrew-tap"
 post-announce-jobs = ["./pages"]
+publish-jobs = ["homebrew"]
 github-custom-job-permissions = { pages = { contents = "read", pages = "write", id-token = "write" } }
 install-updater = false
 install-path = "CARGO_HOME"
