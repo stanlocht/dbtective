@@ -32,10 +32,4 @@ docs:
 
 
 bump:
-    git checkout main
-    git pull origin main
-    cz bump --increment PATCH
-    auto-changelog --hide-credit
-    git add CHANGELOG.md
-    git commit --amend --no-edit
-    git push origin main --tags
+    cz bump --increment PATCH --files-only

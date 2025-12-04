@@ -66,6 +66,21 @@ brew install feliblo/tap/dbtective
 
 </details>
 
+<detail>
+<summary>prek/pre-commit</summary>
+Add the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/feliblo/dbtective
+    rev: v0.1.9  # Use the latest release tag
+    hooks:
+      - id: dbtective-run
+
+```
+
+</detail>
+
 <details>
 <summary>Binary download</summary>
 
