@@ -40,6 +40,46 @@ uv add dbtective --dev
 </details>
 
 <details>
+<summary>Homebrew</summary>
+
+```bash
+brew install feliblo/tap/dbtective
+```
+
+</details>
+
+<details>
+<summary>prek/pre-commit</summary>
+
+Prerequisite: `dbtective` is installed via one of the methods above.
+
+We (currently) recommend using the `--only-manifest` flag with prek/pre-commit to avoid issues caused by `catalog.json` mismatches. For more details, see the explanation in the [checks documentation](https://feliblo.github.io/dbtective/docs/).
+
+Add the following to your `.pre-commit-config.yaml`.
+
+```yaml
+repos:
+  - repo: https://github.com/feliblo/dbtective
+    rev: v0.1.10
+    hooks:
+      - id: dbtective-run
+        args: [--only-manifest]
+```
+
+And run
+
+```bash
+prek install
+prek run --all-files
+# or with pre-commit
+pre-commit install
+pre-commit run --all-files
+
+```
+
+</details>
+
+<details>
 <summary>Shell installer (macOS/Linux)</summary>
 
 ```bash
@@ -56,30 +96,6 @@ irm https://github.com/feliblo/dbtective/releases/latest/download/dbtective-inst
 ```
 
 </details>
-
-<details>
-<summary>Homebrew</summary>
-
-```bash
-brew install feliblo/tap/dbtective
-```
-
-</details>
-
-<detail>
-<summary>prek/pre-commit</summary>
-Add the following to your `.pre-commit-config.yaml`:
-
-```yaml
-repos:
-  - repo: https://github.com/feliblo/dbtective
-    rev: v0.1.9  # Use the latest release tag
-    hooks:
-      - id: dbtective-run
-
-```
-
-</detail>
 
 <details>
 <summary>Binary download</summary>
