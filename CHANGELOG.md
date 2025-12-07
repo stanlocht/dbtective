@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+## v0.1.13 (2025-12-07)
+
+### Feat
+
+- **checks**: create has_unique_test
+- **checks**: add 'is_not_orphaned' check & refactor tests into multiple files
+
 ## v0.1.12 (2025-12-06)
 
 ### Feat
