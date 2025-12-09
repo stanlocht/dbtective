@@ -3,15 +3,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
-# 0.1.18 - 2025-12-09 ([compare](https://github.com/feliblo/dbtective/compare/v0.1.17..v0.1.18))
+# 0.1.19 - 2025-12-09 ([compare](https://github.com/feliblo/dbtective/compare/v0.1.17..v0.1.19))
 
 ## Bug Fixes
 
 - **(docs)** fix changelog formatting - retry auto-release-description - ([54835b7](https://github.com/feliblo/dbtective/commit/54835b7d43ba04b9c009cfb3fb498a9a7f1f34c8)) - Felix Blom
+- **(docs)** cargo dist needs h1's as changelog headers - ([a3db336](https://github.com/feliblo/dbtective/commit/a3db336462ea40bdbc314b8ae3878df4413f8718)) - Felix Blom
 
 ## Bump
 
 - version 0.1.17 → 0.1.18 - ([0b18dbd](https://github.com/feliblo/dbtective/commit/0b18dbdb519f26a634619c3ef199b0a2dd60d143)) - Felix Blom
+- version 0.1.18 → 0.1.19 - ([7b53f8c](https://github.com/feliblo/dbtective/commit/7b53f8cb7c5e44bd91991ed605265c5fc629e7ec)) - Felix Blom
 
 ---
 # 0.1.17 - 2025-12-09 ([compare](https://github.com/feliblo/dbtective/compare/v0.1.15..v0.1.17))
