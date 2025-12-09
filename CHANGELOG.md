@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+## v0.1.14 (2025-12-09)
+
+### Feat
+
+- **config**: add dbtective.toml and pyproject.toml support
+- **checks**: add columns_have_descriptions check
+
 ## v0.1.13 (2025-12-07)
 
 ### Feat
