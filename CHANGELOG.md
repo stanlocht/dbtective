@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+## v0.1.15 (2025-12-09)
+
+### Feat
+
+- **config**: accept v20 manifest.json (it's identical to v12)
+
+### Fix
+
+- **docs**: fix documentation references to other pages
+
 ## v0.1.14 (2025-12-09)
 
 ### Feat
