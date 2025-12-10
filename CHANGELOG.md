@@ -1,3 +1,13 @@
+## v0.1.21 (2025-12-10)
+
+### Fix
+
+- **bug**: fix column constraint parsing - ([b9e4421](https://github.com/feliblo/dbtective/commit/b9e4421754980b535d0dc112555d1fdf2fa58026)) - Felix Blom
+
+### Contributors
+
+[@feliblo](https://github.com/feliblo)
+
 ## v0.1.20 (2025-12-09)
 
 ### Fix
