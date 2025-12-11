@@ -1,3 +1,17 @@
+## v0.1.23 (2025-12-11)
+
+### Feat
+
+- **table**: order the table by severity, object_type and rule - ([2e0e72b](https://github.com/feliblo/dbtective/commit/2e0e72bd32cefc551beb7be3077eac4c61988688)) - feliblo
+
+### Fix
+
+- **logs**: remove even more verbose logging - ([fc3a0ee](https://github.com/feliblo/dbtective/commit/fc3a0ee2e069c698d8155c883ba84c1c95bc5843)) - feliblo
+
+### Contributors
+
+[@feliblo](https://github.com/feliblo)
+
 ## v0.1.22 (2025-12-11)
 
 ### Feat
