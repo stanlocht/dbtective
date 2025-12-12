@@ -1,3 +1,19 @@
+## v0.1.25 (2025-12-12)
+
+### Feat
+
+- **rules**: add has_metadata_keys_rule - ([74f74bb](https://github.com/feliblo/dbtective/commit/74f74bbf025adfeaba8af35630d0a1469371b5cd)) - feliblo
+
+### Fix
+
+- **macro**: add relative path to descriptable trait - ([53fdb48](https://github.com/feliblo/dbtective/commit/53fdb4857f896d9a5731ac9240d606bb0aa0e864)) - feliblo
+- **config**: pyproject.toml is only a valid config if it contains a dbtective section - ([b5358d8](https://github.com/feliblo/dbtective/commit/b5358d87df11c67829f3fb6c9da9ad4302ffa220)) - feliblo
+- **catalog**: set byte description to option (it can be null) - ([0d44475](https://github.com/feliblo/dbtective/commit/0d44475b480d7fec6bf61234f2f705ac59338907)) - feliblo
+
+### Contributors
+
+[@feliblo](https://github.com/feliblo)
+
 ## v0.1.24 (2025-12-11)
 
 ### Fix
